@@ -18,7 +18,7 @@ connectPublish()
     Channel = channel;
   })
   .catch((error) => {
-    console.log("Error amqtp", error);
+    console.log("Error amqtp ", error);
   });
 
 app.use(express.urlencoded({ extended: false }));
