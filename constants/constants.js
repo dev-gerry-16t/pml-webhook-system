@@ -1,5 +1,5 @@
 const GLOBAL_CONSTANTS = {
-  VERSION: "v0.0.1",
+  VERSION: "v0.0.2",
   PORT: process.env.PORT,
   DATABASE_LOGS: process.env.DATABASE_LOGS,
   LOG_DOCUMENT_WARNING: process.env.LOG_DOCUMENT_WARNING,
