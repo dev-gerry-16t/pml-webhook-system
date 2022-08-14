@@ -7,15 +7,15 @@ import GLOBAL_CONSTANTS from "./constants/constants.js";
 import RouteWhatsApp from "./routes/whatsapp.js";
 import RoutesMetaMap from "./routes/metamap.js";
 import RoutesMandrill from "./routes/mandrill.js";
-import connectPublish from "./publisherExchange/publisher.js";
+import connectPublish from "./publisherExchange/publisherRascal.js";
 
 const app = express();
 
-global.Channel = null;
+global.Broker = null;
 
 connectPublish()
-  .then((channel) => {
-    Channel = channel;
+  .then((broker) => {
+    Broker = broker;
   })
   .catch((error) => {
     console.log("Error amqtp ", error);

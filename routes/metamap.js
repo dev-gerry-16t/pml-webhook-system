@@ -1,10 +1,6 @@
 import { Router } from "express";
 import GLOBAL_CONSTANTS from "../constants/constants.js";
 import crypto from "crypto";
-
-const exchangeName = GLOBAL_CONSTANTS.EXCHANGE_METAMAP;
-const routingKey = GLOBAL_CONSTANTS.ROUTING_KEY_METAMAP;
-const exchangeType = "direct";
 const router = Router();
 
 const verify = (signature, secret, payloadBody) => {
@@ -15,11 +11,9 @@ const verify = (signature, secret, payloadBody) => {
 
 const executePublisherMetaMap = async (params) => {
   try {
-    await Channel.assertExchange(exchangeName, exchangeType, {});
-
-    Channel.publish(exchangeName, routingKey, Buffer.from(params), {
-      persistent: true,
-    });
+    const publication = await Broker.publish("toMetaMap", params);
+    publication.on("error", console.error);
+    publication.on("close", console.error);
   } catch (error) {
     console.log("error", error);
   }
@@ -28,7 +22,6 @@ const executePublisherMetaMap = async (params) => {
 router.post("/verification", (req, res) => {
   const params = req.body;
   const headers = req.headers;
-
   const jsonServiceResponse = JSON.stringify(params);
   const xHeaderAWSKey = GLOBAL_CONSTANTS.MATI_WEBHOOK_SECRET;
   const signatureMati = headers["x-signature"];

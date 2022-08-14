@@ -1,23 +1,12 @@
 import { Router } from "express";
 import GLOBAL_CONSTANTS from "../constants/constants.js";
-
-const exchangeName = GLOBAL_CONSTANTS.EXCHANGE_WHATSAPP;
-const routingKey = GLOBAL_CONSTANTS.ROUTING_KEY_WHATSAPP;
-const exchangeType = "direct";
 const router = Router();
 
 const executePublisherWhatsApp = async (params) => {
   try {
-    await Channel.assertExchange(exchangeName, exchangeType, {});
-
-    Channel.publish(
-      exchangeName,
-      routingKey,
-      Buffer.from(JSON.stringify(params)),
-      {
-        persistent: true,
-      }
-    );
+    const publication = await Broker.publish("toWhatsApp", params);
+    publication.on("error", console.error);
+    publication.on("close", console.error);
   } catch (error) {
     console.log("error", error);
   }
