@@ -37,6 +37,7 @@ router.post("/verification", (req, res) => {
       message: "ok",
     });
   } else {
+    console.error("Error in validation signature");
     return res.status(401).send({
       message: "Error in validation signature",
     });
