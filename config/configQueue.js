@@ -2,14 +2,11 @@ import GLOBAL_CONSTANTS from "../constants/constants.js";
 
 const exchangeWhatsApp = GLOBAL_CONSTANTS.EXCHANGE_WHATSAPP;
 const routingKeyWhatsApp = GLOBAL_CONSTANTS.ROUTING_KEY_WHATSAPP;
+const queueNameWhatsApp = GLOBAL_CONSTANTS.QUEUE_NAME_WHATSAPP;
 
 const exchangeMetaMap = GLOBAL_CONSTANTS.EXCHANGE_METAMAP;
 const routingKeyMetaMap = GLOBAL_CONSTANTS.ROUTING_KEY_METAMAP;
-
-const configExchange = {
-  type: "direct",
-  assert: true,
-};
+const queueNameMetaMap = GLOBAL_CONSTANTS.QUEUE_NAME_METAMAP;
 
 const jsonConfig = {
   vhosts: {
@@ -30,16 +27,40 @@ const jsonConfig = {
           strategy: "linear",
         },
       },
+      queues: {
+        [queueNameWhatsApp]: {},
+        [queueNameMetaMap]: {},
+      },
       exchanges: {
-        [exchangeWhatsApp]: configExchange,
-        [exchangeMetaMap]: configExchange,
+        [exchangeWhatsApp]: {
+          type: "direct",
+        },
+        [exchangeMetaMap]: {
+          type: "direct",
+        },
+      },
+      bindings: {
+        bindingWhatsApp: {
+          source: exchangeWhatsApp,
+          destination: queueNameWhatsApp,
+          destinationType: "queue",
+          bindingKey: routingKeyWhatsApp,
+        },
+        bindingMetaMap: {
+          source: exchangeMetaMap,
+          destination: queueNameMetaMap,
+          destinationType: "queue",
+          bindingKey: routingKeyMetaMap,
+        },
       },
       publications: {
         toWhatsApp: {
+          vhost: "/",
           exchange: exchangeWhatsApp,
           routingKey: routingKeyWhatsApp,
         },
         toMetaMap: {
+          vhost: "/",
           exchange: exchangeMetaMap,
           routingKey: routingKeyMetaMap,
         },
