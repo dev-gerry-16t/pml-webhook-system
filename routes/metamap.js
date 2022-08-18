@@ -11,6 +11,7 @@ const verify = (signature, secret, payloadBody) => {
 
 const executePublisherMetaMap = async (params) => {
   try {
+    console.log("send");
     const publication = await Broker.publish("toMetaMap", params);
     publication.on("error", console.error);
     publication.on("close", console.error);
@@ -20,6 +21,7 @@ const executePublisherMetaMap = async (params) => {
 };
 
 router.post("/verification", (req, res) => {
+  console.log("send");
   const params = req.body;
   const headers = req.headers;
   const jsonServiceResponse = JSON.stringify(params);
