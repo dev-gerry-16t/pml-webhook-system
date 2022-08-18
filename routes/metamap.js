@@ -8,7 +8,7 @@ const verify = (signature, secret, payloadBody) => {
   hash = hash.update(payloadBody).digest("hex");
   return hash === signature;
 };
-
+console.log("ok metamap");
 const executePublisherMetaMap = async (params) => {
   try {
     console.log("send");
